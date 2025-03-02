@@ -11,18 +11,23 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      # ...
-      - name: "Build & test"
-        run: |
-          echo "done!"
-
       - uses: "taiki-e/checkout-action@v1"
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Install Protobuf Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+      - uses: "dtolnay/rust-toolchain@1.85"
         with:
-          repo_token: "${{ secrets.GH_RELEASE_TOKEN }}"
-          automatic_release_tag: "latest"
+          targets: "x86_64-unknown-linux-musl"
+      - run: cargo build --release --all-features
+      - uses: "ncipollo/release-action@latest"
+        with:
+          token: "${{ secrets.GH_RELEASE_TOKEN }}"
+          tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: |
-            LICENSE.txt
+          artifacats: |
+            LICENSE
             *.md
+            ./target/x86_64-unknown-linux-musl/release/cosdata
+
