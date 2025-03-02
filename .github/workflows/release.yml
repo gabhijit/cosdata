@@ -24,7 +24,10 @@ jobs:
       - uses: "dtolnay/rust-toolchain@1.85"
         with:
           targets: "x86_64-unknown-linux-musl"
-      - run: cargo build --release --all-features
+      - name: Set MUSL target
+        run: echo "CARGO_BUILD_TARGET=x86_64-unknown-linux-musl" >> $GITHUB_ENV
+      - name: Perform Release build with MUSL libc
+        run: cargo build --release --all-features
       - uses: "ncipollo/release-action@v1"
         with:
           token: "${{ github.token }}"
