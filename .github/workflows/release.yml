@@ -25,8 +25,9 @@ jobs:
           token: "${{ secrets.GH_RELEASE_TOKEN }}"
           tag: "latest"
           prerelease: true
-          title: "Development Build"
-          artifacats: |
+          name: "Development Build"
+          replaceArtifacts: true
+          artifacts: |
             LICENSE
             *.md
             ./target/x86_64-unknown-linux-musl/release/cosdata
