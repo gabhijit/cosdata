@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "done!"
 
+      - uses: "taiki-e/checkout-action@v1"
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GH_RELEASE_TOKEN }}"
